@@ -7,6 +7,7 @@
 
 import fs from "fs";
 import path from "path";
+import { nanoid } from "nanoid";
 
 const contactsPath = path.normalize("db/contacts.json");
 
@@ -27,7 +28,7 @@ export function getContactById(contactId) {
 			return;
 		}
 		const filteredContact = JSON.parse(data).filter(
-			(contact) => Number(contact.id) === contactId
+			(contact) => contact.id === contactId
 		);
 		console.log(filteredContact);
 	});
@@ -40,7 +41,7 @@ export function removeContact(contactId) {
 			return;
 		}
 		const contacts = JSON.parse(data).filter(
-			(contact) => Number(contact.id) !== contactId
+			(contact) => contact.id !== contactId
 		);
 
 		fs.writeFile(contactsPath, JSON.stringify(contacts), (err) => {
@@ -62,7 +63,7 @@ export function addContact(name, email, phone) {
 			return;
 		}
 		const contacts = JSON.parse(data);
-		contacts.push({ name, email, phone });
+		contacts.push({ name, email, phone, id: nanoid() });
 
 		fs.writeFile(contactsPath, JSON.stringify(contacts), (err) => {
 			if (err) {
