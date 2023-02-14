@@ -1,24 +1,24 @@
 const express = require("express");
-const bookService = require("../../controllers");
+const bookCtrl = require("../../controllers");
 const { validation } = require("../../middlewares/");
 const { contactAddSchema, contactUpdateSchema } = require("../../schemas");
 
 const router = express.Router();
 
-router.get("/", bookService.getAll);
+router.get("/", bookCtrl.getAll);
 
-router.get("/:id", bookService.getById);
+router.get("/:id", bookCtrl.getById);
 
-router.post("/", validation(contactAddSchema), bookService.add);
+router.post("/", validation(contactAddSchema), bookCtrl.add);
 
-router.put("/:id", validation(contactAddSchema), bookService.updateById);
+router.put("/:id", validation(contactAddSchema), bookCtrl.updateById);
 
 router.patch(
 	"/:id/favorite",
 	validation(contactUpdateSchema),
-	bookService.updateStatusById
+	bookCtrl.updateStatusById
 );
 
-router.delete("/:id", bookService.removeById);
+router.delete("/:id", bookCtrl.removeById);
 
 module.exports = router;
