@@ -6,6 +6,7 @@ const contactAddSchema = Joi.object({
 	phone: Joi.number().required(),
 	favorite: Joi.bool(),
 });
+
 const contactUpdateSchema = Joi.object({
 	favorite: Joi.bool().required(),
 });

@@ -20,6 +20,16 @@ const contactSchema = new Schema(
 	{ versionKey: false, timestamps: true }
 );
 
+const handleError = (error, data, next) => {
+	const { name } = error;
+	if (name === "ValidationError") {
+		error.status = 400;
+	}
+	next();
+};
+
+contactSchema.post("save", handleError);
+
 const Contact = model("contact", contactSchema);
 
 module.exports = Contact;
