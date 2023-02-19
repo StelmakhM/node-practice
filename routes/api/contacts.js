@@ -1,5 +1,5 @@
 const express = require("express");
-const bookCtrl = require("../../controllers");
+const bookCtrl = require("../../controllers/contacts");
 const { validation, isIdValid } = require("../../middlewares/");
 const { contactAddSchema, contactUpdateSchema } = require("../../schemas");
 

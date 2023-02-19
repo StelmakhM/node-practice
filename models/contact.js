@@ -32,4 +32,4 @@ contactSchema.post("save", handleError);
 
 const Contact = model("contact", contactSchema);
 
-module.exports = Contact;
+module.exports = { Contact };
