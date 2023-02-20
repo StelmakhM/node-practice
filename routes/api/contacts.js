@@ -1,18 +1,19 @@
 const express = require("express");
 const bookCtrl = require("../../controllers/contacts");
-const { validation, isIdValid } = require("../../middlewares/");
+const { validation, isIdValid, auth } = require("../../middlewares/");
 const { contactAddSchema, contactUpdateSchema } = require("../../schemas");
 
 const router = express.Router();
 
-router.get("/", bookCtrl.getAll);
+router.get("/", auth, bookCtrl.getAll);
 
-router.get("/:id", isIdValid, bookCtrl.getById);
+router.get("/:id", auth, isIdValid, bookCtrl.getById);
 
-router.post("/", validation(contactAddSchema), bookCtrl.add);
+router.post("/", auth, validation(contactAddSchema), bookCtrl.add);
 
 router.put(
 	"/:id",
+	auth,
 	isIdValid,
 	validation(contactAddSchema),
 	bookCtrl.updateById
@@ -20,6 +21,7 @@ router.put(
 
 router.patch(
 	"/:id/favorite",
+	auth,
 	isIdValid,
 	validation(contactUpdateSchema),
 	bookCtrl.updateStatusById
