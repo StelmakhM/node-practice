@@ -22,6 +22,9 @@ const login = async (req, res, next) => {
 		if (!user || !user.comparePassword(password)) {
 			throw new CreateError(401, "Email or password is wrong");
 		}
+		if (!user.verify) {
+			throw new CreateError(401, "Email is not verified yet");
+		}
 
 		const token = jwt.sign({ id: user._id }, SECRET_KEY);
 		await User.findByIdAndUpdate(user.id, { token });

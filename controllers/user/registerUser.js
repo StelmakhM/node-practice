@@ -2,6 +2,9 @@ const CreateError = require("http-errors");
 // const bcrypt = require("bcryptjs");
 const { User } = require("../../models");
 const gravatar = require("gravatar");
+const { nanoid } = require("nanoid");
+const { sendEmail } = require("../../helpers");
+const { token } = require("morgan");
 
 const register = async (req, res, next) => {
 	try {
@@ -15,6 +18,7 @@ const register = async (req, res, next) => {
 		}
 
 		const avatarURL = gravatar.url(email);
+		const verificationToken = nanoid();
 
 		/*Simple version*/
 
@@ -23,9 +27,16 @@ const register = async (req, res, next) => {
 		// await User.create({ password: hashPassword, email, subscription });
 
 		/*Complex version useing User Class */
-		const newUser = new User({ email, subscription, avatarURL });
+		const newUser = new User({
+			email,
+			subscription,
+			avatarURL,
+			verificationToken,
+		});
 		newUser.setPassword(password);
 		newUser.save();
+
+		sendEmail(email, verificationToken);
 
 		res.status(201).json({
 			user: { email, subscription },
