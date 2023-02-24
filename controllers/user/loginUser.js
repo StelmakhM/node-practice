@@ -29,6 +29,8 @@ const login = async (req, res, next) => {
 			status: "success",
 			code: 200,
 			data: {
+				email: user.email,
+				subscription: user.subscription,
 				token,
 			},
 		});
